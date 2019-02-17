@@ -1,4 +1,5 @@
 import { DataType, Table, Column, Model, HasMany, CreatedAt, UpdatedAt, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
+import { CoachGyms } from './coach_gyms';
 
 @Table({
     underscored: true,
@@ -22,6 +23,9 @@ export class User extends Model<User> {
 
     @Column
     description: string;
+
+    @HasMany(() => CoachGyms)
+    coachGyms: CoachGyms[]
 
     @CreatedAt
     @Column({field: 'created_at'})

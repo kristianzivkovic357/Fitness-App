@@ -78,3 +78,15 @@ export async function getCoachList(req: ValidRequest, res: Response, next: NextF
     }
 };
 
+export async function addCoachToGym(req: ValidRequest, res: Response, next: NextFunction) {
+    try {
+        await userServices.addCoachToGym(req.validInput.userId, req.validInput.gymIds);
+        
+        res
+            .status(201)
+            .end();
+    } catch (err) {
+        next(err);
+    }
+};
+

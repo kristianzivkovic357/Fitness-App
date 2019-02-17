@@ -4,6 +4,8 @@ import { Gym } from "../repo/models/gym";
 import { Op } from 'sequelize';
 import { City } from "../repo/models/city";
 import { Country } from "../repo/models/country";
+import { CoachGyms } from "../repo/models/coach_gyms";
+import { User } from "../repo/models/user";
 
 interface GymList {
     count: number,
@@ -55,4 +57,46 @@ function gymListMapper(data: GymList): GymList {
     }));
 
     return data;
+}
+
+export async function getCoachList(gymId: number) {
+    const gym = await Gym.findOne({
+        where: {
+            id: gymId
+        },
+        include: [{
+            model: CoachGyms,
+            required: true,
+            include: [{
+                model: User,
+                required: true,
+                attributes: {
+                    exclude: ['isCoach', 'updatedAt']
+                }
+            }]
+        }]
+    })
+
+    if(!gym) {
+        return {
+            count: 0,
+            rows: []
+        };
+    }
+
+    return coachListMapper(gym.get());
+}
+
+export function coachListMapper(gym: Gym): {count: number, rows: User[]} {
+    const coaches: User[] = [];
+    const coachGyms = gym.coachGyms;
+    
+    for(let i in coachGyms) {
+        coaches.push(coachGyms[i].coach);
+    }
+
+    return {
+        count: coaches.length,
+        rows: coaches
+    }
 }

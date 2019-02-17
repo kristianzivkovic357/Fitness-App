@@ -16,3 +16,16 @@ export async function getGymList(req: ValidRequest, res: Response, next: NextFun
         next(err);
     }
 }
+
+export async function getCoachesByGym(req: ValidRequest, res: Response, next: NextFunction) {
+    try {
+        const gyms = await gymService.getCoachList(req.validInput.gymId);
+
+        res
+        .status(200)
+        .send(APIResponse.success(gyms))
+        .end();
+    } catch(err) {
+        next(err);
+    }
+}

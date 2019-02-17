@@ -1,5 +1,6 @@
 import { DataType, Table, Column, Model, HasMany, CreatedAt, UpdatedAt, PrimaryKey, AutoIncrement, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Area } from './area';
+import { CoachGyms } from './coach_gyms';
 
 @Table({
     underscored: true,
@@ -30,6 +31,9 @@ export class Gym extends Model<Gym> {
 
     @BelongsTo(() => Area)
     area: Area;
+
+    @HasMany(() => CoachGyms)
+    coachGyms: CoachGyms[]
 
     @CreatedAt
     @Column({field: 'created_at'})
