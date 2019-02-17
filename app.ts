@@ -24,14 +24,6 @@ app.use(urlencoded({extended: true}));
 app.use(router);
 app.use('/.well-known', express.static(__dirname + '/.well-known'));
 
-app.use((err: Error & { status: number }, request: Request, response: Response, next: NextFunction): void => {
-  response.status(err.status || 500);
-  response.json({
-    error: 'Server error'
-  });
-});
-
-app.use('*', (request: Request, response: Response) => response.status(404).json({message: 'Not found!'}));
 
 const server: Server = app.listen(PORT, () => {
   console.log('Server listening on http://localhost:' + PORT);

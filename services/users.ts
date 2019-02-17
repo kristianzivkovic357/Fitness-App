@@ -41,3 +41,13 @@ export async function register(email, data) {
 
     return getSessionProperties(UserObj);
 }
+
+export async function getCoachList() {
+    const coachList = await User.findAndCountAll({
+        where: {
+            isCoach: true
+        }
+    })
+
+    return coachList;
+}

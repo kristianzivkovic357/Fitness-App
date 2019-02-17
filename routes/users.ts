@@ -65,3 +65,16 @@ export async function logout(req: ValidRequest, res: Response, next: NextFunctio
     }
 };
 
+export async function getCoachList(req: ValidRequest, res: Response, next: NextFunction) {
+    try {
+        const coachList = await userServices.getCoachList();
+        
+        res
+            .status(200)
+            .send(APIResponse.success(coachList))
+            .end();
+    } catch (err) {
+        next(err);
+    }
+};
+
